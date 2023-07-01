@@ -12,4 +12,4 @@ public class DesktopLauncher {
 		config.setTitle("Desert Strike");
 		new Lwjgl3Application(new MyGdxGame(), config);
 	}
-}
+}                   
