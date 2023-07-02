@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 
-public class MyGdxGame extends ApplicationAdapter {
+public class Main extends ApplicationAdapter {
     private static final float HELICOPTER_SPEED = 200.0f;
     private static final float HELICOPTER_MAX_DISTANCE_FROM_CENTER = 200.0f;
     private static final float WINDOW_WIDTH = 1280;
@@ -19,6 +19,7 @@ public class MyGdxGame extends ApplicationAdapter {
     private OrthographicCamera camera;
     private Helicoptero helicoptero;
     private Cenario cenario;
+    
 
     @Override
     public void create() {
