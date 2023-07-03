@@ -1,24 +1,25 @@
 package com.mygdx.game;
 
+import java.util.ArrayList;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 
 public class Main extends ApplicationAdapter {
     private static final float HELICOPTER_SPEED = 200.0f;
     private static final float HELICOPTER_MAX_DISTANCE_FROM_CENTER = 200.0f;
     private static final float WINDOW_WIDTH = 1280;
     private static final float WINDOW_HEIGHT = 720;
-
     private Batch batch;
     private OrthographicCamera camera;
     private Helicoptero helicoptero;
     private Cenario cenario;
+    private ArrayList<Inimigo> inimigos;
     
 
     @Override
@@ -26,9 +27,32 @@ public class Main extends ApplicationAdapter {
         batch = new SpriteBatch();
         camera = new OrthographicCamera(WINDOW_WIDTH, WINDOW_HEIGHT);
         cenario = new Cenario();
-        helicoptero = new Helicoptero(cenario.getWidth() / 2, cenario.getHeight() / 2);
-
+        helicoptero = new Helicoptero(525, 618);
+        inimigos = new ArrayList<>();
         camera.position.set(cenario.getWidth() / 2, cenario.getHeight() / 2, 0);
+        // Criar alguns inimigos e adicioná-los à lista
+        Texture inimigoTexture1 = new Texture("predio1.png");
+        Texture inimigoTexture1Destruido = new Texture("predio1_destruido.png");
+        Texture inimigoTexture2 = new Texture("predio2.png");
+        Texture inimigoTexture2Destruido = new Texture("predio2_destruido.png");
+        Texture inimigoTexture3 = new Texture("predio3.png");
+        Texture inimigoTexture3Destruido = new Texture("predio3_destruido.png");
+        Texture inimigoTexture4 = new Texture("predio4.png");
+        Texture inimigoTexture4Destruido = new Texture("predio4_destruido.png");
+        Texture inimigoTexture5 = new Texture("predio5.png");
+        Texture inimigoTexture5Destruido = new Texture("predio5_destruido.png");
+
+        inimigos.add(new Inimigo(3550, cenario.getHeight() - 1050, inimigoTexture1, inimigoTexture1Destruido));
+        inimigos.add(new Inimigo(3770, cenario.getHeight() - 1200, inimigoTexture2, inimigoTexture2Destruido));
+        inimigos.add(new Inimigo(3550, cenario.getHeight() - 1310, inimigoTexture3, inimigoTexture3Destruido));
+        inimigos.add(new Inimigo(3250, cenario.getHeight() - 1450, inimigoTexture4, inimigoTexture4Destruido));
+        inimigos.add(new Inimigo(3750, cenario.getHeight() - 1430, inimigoTexture5, inimigoTexture5Destruido));
+        inimigos.add(new Inimigo(4050, cenario.getHeight() - 1330, inimigoTexture3, inimigoTexture3Destruido));
+        inimigos.add(new Inimigo(3510, cenario.getHeight() - 1570, inimigoTexture2, inimigoTexture2Destruido));
+        inimigos.add(new Inimigo(3000, cenario.getHeight() - 1330, inimigoTexture2, inimigoTexture2Destruido));
+        inimigos.add(new Inimigo(3290, cenario.getHeight() - 1200, inimigoTexture1, inimigoTexture1Destruido));
+        // Adicione mais inimigos, se necessário
+
         camera.update();
 
         Gdx.graphics.setWindowedMode((int) WINDOW_WIDTH, (int) WINDOW_HEIGHT);
@@ -88,7 +112,7 @@ public class Main extends ApplicationAdapter {
         for (Tiro tiro : helicoptero.getTiros()) {
             tiro.update(deltaTime);
         }
-
+        verificarColisoes();
         float helicopterX = helicoptero.getPositionX();
         float helicopterY = helicoptero.getPositionY();
 
@@ -119,6 +143,9 @@ public class Main extends ApplicationAdapter {
         batch.begin();
 
         cenario.render(batch);
+        for (Inimigo inimigo : inimigos) {
+            inimigo.render(batch);
+        }
         for (Tiro tiro : helicoptero.getTiros()) {
             tiro.render(batch);
         }
@@ -126,16 +153,42 @@ public class Main extends ApplicationAdapter {
 
         batch.end();
 
-        // Capturar o input do usuário
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            helicoptero.atirar();
+    }
+
+    private void verificarColisoes() {
+    ArrayList<Tiro> tirosParaRemover = new ArrayList<>();
+
+    for (Tiro tiro : helicoptero.getTiros()) {
+        for (Inimigo inimigo : inimigos) {
+            if (colisaoEntreObjetos(tiro.getPositionX(), tiro.getPositionY(), tiro.getWidth(), tiro.getHeight(),
+                    inimigo.getPositionX(), inimigo.getPositionY(), inimigo.getWidth(), inimigo.getHeight())) {
+                inimigo.diminuirVida(1);
+                tiro.dispose();
+                tirosParaRemover.add(tiro); // Adicionar o tiro à lista de tiros para remover
+                break; // Sair do loop interno, pois o tiro já colidiu com um inimigo
+            }
         }
+    }
+
+    // Remover os tiros da lista de tiros
+    for (Tiro tiro : tirosParaRemover) {
+        helicoptero.removerTiro(tiro);
+    }
+}
+
+    private boolean colisaoEntreObjetos(float x1, float y1, float w1, float h1, float x2, float y2, float w2,
+            float h2) {
+        return x1 < x2 + w2 && x1 + w1 > x2 && y1 < y2 + h2 && y1 + h1 > y2;
     }
 
     @Override
     public void dispose() {
         batch.dispose();
         helicoptero.dispose();
+        // Descartar as texturas dos inimigos
+        for (Inimigo inimigo : inimigos) {
+            inimigo.dispose();
+        }
         cenario.dispose();
     }
 }

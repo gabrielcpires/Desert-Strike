@@ -8,7 +8,7 @@ public class Cenario {
     private float height;
 
     public Cenario() {
-        backgroundTexture = new Texture("background.png");
+        backgroundTexture = new Texture("backgroundnovo.png");
         width = backgroundTexture.getWidth();
         height = backgroundTexture.getHeight();
     }

@@ -2,6 +2,10 @@ package com.mygdx.game;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
@@ -17,11 +21,13 @@ public class Helicoptero {
     private float tiroCooldownTimer;
     private static final float TIRO_COOLDOWN = 0.1f; // Tempo de espera entre os disparos
     private ArrayList<Tiro> tiros;
-    
+    private Sound somTiro; // Variável para armazenar o som do tiro
+    private Music somFundo; // Variável para armazenar o som de fundo
 
     public static final float HELICOPTER_WIDTH = 32; // Largura do helicóptero
 
     public Helicoptero(float initialX, float initialY) {
+        
         helicopterTextures = new Texture[8];
         for (int i = 0; i < 8; i++) {
             helicopterTextures[i] = new Texture("sprite_" + (i + 1) + ".png");
@@ -33,6 +39,11 @@ public class Helicoptero {
         helice = new Helice(initialX, initialY + 8); // Posição inicial da hélice
         sombra = new Sombra(initialX, initialY);
         tiroCooldownTimer = 0;
+        somFundo = Gdx.audio.newMusic(Gdx.files.internal("som_helicoptero.mp3")); // Carregar o som de fundo
+        somFundo.setLooping(true); // Definir a reprodução em loop
+        somFundo.play(); // Iniciar a reprodução do som de fundo
+        somFundo.setVolume(0.2f);
+        somTiro = Gdx.audio.newSound(Gdx.files.internal("tiro.mp3")); // Carregar o som do tiro
         tiros = new ArrayList<>();
     }
 
@@ -91,6 +102,10 @@ public class Helicoptero {
                 tiroDirectionY = 0; // tiro irá para a esquerda
             }
         }
+        // Capturar o input do usuário
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+           atirar();
+        }
 
         positionX += movementX;
         positionY += movementY;
@@ -112,17 +127,24 @@ public class Helicoptero {
         if (tiroCooldownTimer <= 0) {
             Tiro tiro = new Tiro(positionX, positionY, tiroDirectionX, tiroDirectionY);
             tiros.add(tiro);
+            somTiro.play(1); // Definir volume do som do tiro
             tiroCooldownTimer = TIRO_COOLDOWN;
         }
+    }
+
+    public void removerTiro(Tiro tiro) {
+        tiros.remove(tiro);
     }
 
     public void dispose() {
         for (Texture texture : helicopterTextures) {
             texture.dispose();
         }
-
+        somTiro.dispose();
         helice.dispose();
         sombra.dispose();
+        somFundo.stop(); // Parar a reprodução do som de fundo
+        somFundo.dispose(); // Descartar o som de fundo
     }
 
     public float getPositionX() {

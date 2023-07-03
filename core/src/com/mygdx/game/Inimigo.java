@@ -2,42 +2,49 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 
 public class Inimigo {
-    private Texture inimigoTexture;
-    private float positionX;
-    private float positionY;
+    private Texture textureNormal, textureDestruido;
+    private float positionX, positionY;
+    private float width, height;
     private int vida;
+    private Sound somExplosao; // Variável para armazenar o som da explosão
+    private boolean exploded;
 
-    public Inimigo(float initialX, float initialY) {
-        inimigoTexture = new Texture("inimigos_2.png");
+    public Inimigo(float initialX, float initialY, Texture textureNormal, Texture textureDestruido) {
+        this.textureNormal = textureNormal;
+        this.textureDestruido = textureDestruido;
+        exploded = false;
         positionX = initialX;
         positionY = initialY;
-        vida = 1000; // Defina a quantidade inicial de vida do inimigo
+        width = textureNormal.getWidth();
+        height = textureNormal.getHeight();
+        vida = 10; // Defina a quantidade inicial de vida do inimigo
+        somExplosao = Gdx.audio.newSound(Gdx.files.internal("assets/explosao.mp3")); // Carregar o som da explosão
     }
 
     public void render(Batch batch) {
         if (vida > 0) {
-            batch.draw(inimigoTexture, positionX, positionY);
-        }
-        if (vida <= 0) {
-            vida = 0;
-            dispose(); // Remover a textura do inimigo quando a vida for igual a 0
-            positionX = -1000; // Defina uma posição fora da tela para o inimigo
-            positionY = -1000;
+            batch.draw(textureNormal, positionX, positionY);
+        } else if (vida <= 0) {
+            if (!exploded) {
+                somExplosao.play();
+                exploded = true;
+            }
+            batch.draw(textureDestruido, positionX, positionY);
         }
     }
 
     public void diminuirVida(int quantidade) {
         vida -= quantidade;
-        if (vida <= 0) {
-            vida = 0;
-            dispose(); // Remover a textura do inimigo quando a vida for igual a 0
-        }
     }
 
     public void dispose() {
-        inimigoTexture.dispose();
+        textureNormal.dispose();
+        textureDestruido.dispose();
+        somExplosao.dispose(); // Descartar o som da explosão quando não for mais necessário
     }
 
     public float getPositionX() {
@@ -53,10 +60,18 @@ public class Inimigo {
     }
 
     public Texture getTexture() {
-        return inimigoTexture;
+        return textureNormal;
     }
 
     public void setTexture(Texture texture) {
-        inimigoTexture = texture;
+        textureNormal = texture;
+    }
+
+    public float getWidth() {
+        return width;
+    }
+
+    public float getHeight() {
+        return height;
     }
 }
