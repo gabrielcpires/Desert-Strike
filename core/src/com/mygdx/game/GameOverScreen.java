@@ -29,7 +29,7 @@ public class GameOverScreen implements Screen {
 
         game.batch.begin();
         game.batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        game.font.draw(game.batch,"O MEGA BATALHAO DE DESTRUICAO MAXIMA AEREA foi bem sucedido e agora nenhum maldito comunista\n tera um teto sobre sua cabeca. \n\nClique Novamente para ir para o Menu!", 50,170);
+        game.font.draw(game.batch,"O MEGA BATALHAO DE DESTRUICAO MAXIMA AEREA foi bem sucedido e agora nenhum maldito\n comunista tera um teto sobre sua cabeca. \n\nClique Novamente para ir para o Menu!", 50,170);
         game.batch.end();
 
         inputProcessor = new InputAdapter() {
