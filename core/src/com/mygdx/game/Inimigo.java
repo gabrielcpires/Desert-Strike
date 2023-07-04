@@ -10,6 +10,7 @@ public class Inimigo {
     private float positionX, positionY;
     private float width, height;
     private int vida;
+    private int pontos;
     private Sound somExplosao; // Variável para armazenar o som da explosão
     private boolean exploded;
 
@@ -25,11 +26,12 @@ public class Inimigo {
         somExplosao = Gdx.audio.newSound(Gdx.files.internal("assets/explosao.mp3")); // Carregar o som da explosão
     }
 
-    public void render(Batch batch) {
+    public void render(Batch batch,GameScreen gameScreen) {
         if (vida > 0) {
             batch.draw(textureNormal, positionX, positionY);
         } else if (vida <= 0) {
             if (!exploded) {
+                gameScreen.adicionarPontos(100); 
                 somExplosao.play();
                 exploded = true;
             }
@@ -57,6 +59,10 @@ public class Inimigo {
 
     public int getVida() {
         return vida;
+    }
+
+    public int getPontos() {
+        return pontos;
     }
 
     public Texture getTexture() {
