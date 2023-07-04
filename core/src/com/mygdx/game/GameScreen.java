@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GameScreen implements Screen {
     private DesertStrike game;
-    private static final float HELICOPTER_SPEED = 1000.0f;
+    private static final float HELICOPTER_SPEED = 200.0f;
     private static final float HELICOPTER_MAX_DISTANCE_FROM_CENTER = 200.0f;
     private static final float WINDOW_WIDTH = 1280;
     private static final float WINDOW_HEIGHT = 720;
@@ -126,7 +126,7 @@ public class GameScreen implements Screen {
         String pontosTexto = "Pontos: " +  getPontos();
        game.font.draw(batch, pontosTexto, camera.position.x - camera.viewportWidth / 2 + 10, camera.position.y + camera.viewportHeight / 2 - 10);
         batch.end();
-        if(pontos >= 100){
+        if(pontos >= 1800){
         game.setScreen(new GameOverScreen(game));
     }
 
@@ -204,8 +204,12 @@ public class GameScreen implements Screen {
         inimigos.add(new Inimigo(4800, cenario.getHeight() - 680, inimigoTexture1, inimigoTexture1Destruido));
         inimigos.add(new Inimigo(4830, cenario.getHeight() - 930, inimigoTexture2, inimigoTexture2Destruido));
         inimigos.add(new Inimigo(5060, cenario.getHeight() - 1050, inimigoTexture3, inimigoTexture3Destruido));
-        inimigos.add(new Inimigo(5320, cenario.getHeight() - 1190, inimigoTexture3, inimigoTexture3Destruido));
+        inimigos.add(new Inimigo(5320, cenario.getHeight() - 1190, inimigoTexture5, inimigoTexture5Destruido));
         inimigos.add(new Inimigo(5320, cenario.getHeight() - 1460, inimigoTexture4, inimigoTexture4Destruido));
+        inimigos.add(new Inimigo(2235, cenario.getHeight() - 670, inimigoTexture1, inimigoTexture1Destruido));
+        inimigos.add(new Inimigo(2240, cenario.getHeight() - 395, inimigoTexture3, inimigoTexture3Destruido));
+        inimigos.add(new Inimigo(2240, cenario.getHeight() - 195, inimigoTexture2, inimigoTexture2Destruido));
+        inimigos.add(new Inimigo(2245, cenario.getHeight() - 920, inimigoTexture1, inimigoTexture1Destruido));
 
         camera.update();
 
