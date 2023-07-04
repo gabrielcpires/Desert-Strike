@@ -14,7 +14,7 @@ public class Helice {
     public Helice(float initialX, float initialY) {
         heliceTextures = new Texture[8];
         for (int i = 0; i < 8; i++) {
-            heliceTextures[i] = new Texture("helice_" + (i + 1) + ".png");
+            heliceTextures[i] = new Texture("assets/helice_" + (i + 1) + ".png");
         }
 
         positionX = initialX;

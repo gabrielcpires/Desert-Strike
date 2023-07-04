@@ -30,7 +30,7 @@ public class Helicoptero {
         
         helicopterTextures = new Texture[8];
         for (int i = 0; i < 8; i++) {
-            helicopterTextures[i] = new Texture("sprite_" + (i + 1) + ".png");
+            helicopterTextures[i] = new Texture("assets/sprite_" + (i + 1) + ".png");
         }
 
         positionX = initialX;

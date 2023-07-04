@@ -181,16 +181,16 @@ public class GameScreen implements Screen {
     public void show() {
 
         // Criar alguns inimigos e adicioná-los à lista
-        Texture inimigoTexture1 = new Texture("predio1.png");
-        Texture inimigoTexture1Destruido = new Texture("predio1_destruido.png");
-        Texture inimigoTexture2 = new Texture("predio2.png");
-        Texture inimigoTexture2Destruido = new Texture("predio2_destruido.png");
-        Texture inimigoTexture3 = new Texture("predio3.png");
-        Texture inimigoTexture3Destruido = new Texture("predio3_destruido.png");
-        Texture inimigoTexture4 = new Texture("predio4.png");
-        Texture inimigoTexture4Destruido = new Texture("predio4_destruido.png");
-        Texture inimigoTexture5 = new Texture("predio5.png");
-        Texture inimigoTexture5Destruido = new Texture("predio5_destruido.png");
+        Texture inimigoTexture1 = new Texture("assets/predio1.png");
+        Texture inimigoTexture1Destruido = new Texture("assets/predio1_destruido.png");
+        Texture inimigoTexture2 = new Texture("assets/predio2.png");
+        Texture inimigoTexture2Destruido = new Texture("assets/predio2_destruido.png");
+        Texture inimigoTexture3 = new Texture("assets/predio3.png");
+        Texture inimigoTexture3Destruido = new Texture("assets/predio3_destruido.png");
+        Texture inimigoTexture4 = new Texture("assets/predio4.png");
+        Texture inimigoTexture4Destruido = new Texture("assets/predio4_destruido.png");
+        Texture inimigoTexture5 = new Texture("assets/predio5.png");
+        Texture inimigoTexture5Destruido = new Texture("assets/predio5_destruido.png");
 
         inimigos.add(new Inimigo(3550, cenario.getHeight() - 1050, inimigoTexture1, inimigoTexture1Destruido));
         inimigos.add(new Inimigo(3770, cenario.getHeight() - 1200, inimigoTexture2, inimigoTexture2Destruido));

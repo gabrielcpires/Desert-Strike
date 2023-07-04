@@ -13,7 +13,7 @@ public class Sombra {
     public Sombra(float initialX, float initialY) {
         sombraTextures = new Texture[8];
         for (int i = 0; i < 8; i++) {
-            sombraTextures[i] = new Texture("sombra_" + (i + 1) + ".png");
+            sombraTextures[i] = new Texture("assets/sombra_" + (i + 1) + ".png");
         }
 
         positionX = initialX;

@@ -15,7 +15,7 @@ public class Tiro {
     private float directionY;
 
     public Tiro(float initialX, float initialY, float directionX, float directionY) {
-        tiroTexture = new Texture("tiro.png");
+        tiroTexture = new Texture("assets/tiro.png");
         positionX = initialX;
         positionY = initialY;
         this.directionX = directionX;
